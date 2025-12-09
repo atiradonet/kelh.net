@@ -11,9 +11,11 @@ Static site for the kelh.net domain owned by @atiradonet. This repository hosts 
 ## BIMI
 
 - BIMI logo is served at `https://kelh.net/bimi/kelh-bimi.svg` (SVG Tiny, square).
-- DNS TXT record to publish (once ready):  
+- DNS TXT record without a VMC (limited provider support):  
+  `default._bimi.kelh.net. IN TXT "v=BIMI1; l=https://kelh.net/bimi/kelh-bimi.svg;"`  
+- When you obtain a VMC, update the record to include it:  
   `default._bimi.kelh.net. IN TXT "v=BIMI1; l=https://kelh.net/bimi/kelh-bimi.svg; a=<VMC_URL>"`  
-  Replace `<VMC_URL>` with your Verified Mark Certificate location when issued; omit `a=` only if the receiver allows BIMI without a VMC.
+  Many providers (e.g., Gmail, Yahoo) require a VMC to display the mark.
 - Prereqs: DMARC at enforcement (`p=quarantine` or `p=reject`) with aligned SPF/DKIM for mail you send as kelh.net.
 - If you move the logo, update `l=` in DNS and keep the file public over HTTPS.
 

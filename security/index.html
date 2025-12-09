@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="kelh.net vulnerability disclosure and security policy.">
+  <title>kelh.net Security</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8f9fa;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f4c81;
+      --border: #e2e8f0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, #e6eef6, #f8f9fa 35%), var(--bg);
+      color: var(--text);
+    }
+    main {
+      width: min(760px, 94vw);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      line-height: 1.6;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    nav {
+      margin-bottom: 20px;
+    }
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    nav a:hover, nav a:focus-visible { text-decoration: underline; }
+    section { margin-top: 20px; }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+    }
+    ul {
+      padding-left: 18px;
+      margin: 8px 0 0;
+    }
+    li { margin-bottom: 6px; }
+    code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .meta {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover, a:focus-visible { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav><a href="/">← Back to kelh.net</a></nav>
+    <header>
+      <h1>Security</h1>
+      <p>We welcome vulnerability reports and will work with you in good faith to resolve issues.</p>
+    </header>
+
+    <section aria-labelledby="scope">
+      <h2 id="scope">Scope</h2>
+      <ul>
+        <li>In scope: kelh.net and subdomains owned by kelh.net.</li>
+        <li>Out of scope: third-party services not operated by kelh.net, social accounts, denial-of-service or resource exhaustion tests, physical or social engineering attacks.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="reporting">
+      <h2 id="reporting">How to report</h2>
+      <ul>
+        <li>Email: <a href="mailto:rpt@kelh.net">rpt@kelh.net</a></li>
+        <li>Include: affected host/path, clear steps to reproduce, expected vs. actual behavior, impact, and any proof-of-concept. Screenshots or short logs are helpful.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="commitment">
+      <h2 id="commitment">Our commitment</h2>
+      <ul>
+        <li>Acknowledge reports within 30 days.</li>
+        <li>Provide status updates at least every 30 days until resolution.</li>
+        <li>Coordinate disclosure timelines with you.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="guidelines">
+      <h2 id="guidelines">Research guidelines</h2>
+      <ul>
+        <li>Avoid degrading service or accessing more data than necessary to demonstrate the issue.</li>
+        <li>No automated scanning that impacts availability.</li>
+        <li>Do not exfiltrate personal data; if accessed accidentally, stop, report, and delete it.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="safe-harbor">
+      <h2 id="safe-harbor">Safe harbor</h2>
+      <p>If you make a good-faith effort to follow this policy, avoid privacy harms, and report promptly, we will not pursue legal action or ask law enforcement to investigate you for your research on in-scope assets.</p>
+    </section>
+
+    <section aria-labelledby="recognition">
+      <h2 id="recognition">Recognition / rewards</h2>
+      <p>We don’t run a bounty program right now. When possible, we will offer thanks directly. No acknowledgments page is published at this time.</p>
+    </section>
+
+    <section aria-labelledby="cryptography">
+      <h2 id="cryptography">Cryptography</h2>
+      <p>PGP/other encrypted channels are not yet available. If needed later, we’ll publish the key and note it in <code>/.well-known/security.txt</code>.</p>
+    </section>
+
+    <div class="meta">
+      Last updated: 2025-12-09. Canonical policy: <a href="https://kelh.net/security">https://kelh.net/security</a>
+    </div>
+  </main>
+</body>
+</html>

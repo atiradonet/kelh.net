@@ -1,6 +1,6 @@
 # kelh.net
 
-The home for kelh.net, a simple public landing page maintained by @atiradonet.
+The home for kelh.net, a simple public landing page maintained by @atiradonet. Visit https://kelh.net.
 
 ## What’s here
 

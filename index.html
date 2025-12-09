@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="kelh.net — a concise home on the web.">
+  <title>kelh.net</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8f9fa;
+      --text: #0f172a;
+      --accent: #0f4c81;
+      --muted: #475569;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, #e6eef6, #f8f9fa 35%), var(--bg);
+      color: var(--text);
+    }
+    main {
+      width: min(640px, 92vw);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    section {
+      margin-top: 24px;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    blockquote {
+      margin: 16px 0;
+      padding: 16px 20px;
+      border-left: 4px solid var(--accent);
+      background: #f1f5f9;
+      color: var(--text);
+      font-style: italic;
+    }
+    cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-style: normal;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover, a:focus-visible {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>kelh.net</h1>
+      <p>A clear, simple home on the web.</p>
+    </header>
+
+    <section aria-labelledby="quote">
+      <h2 id="quote" style="margin:0 0 8px; font-size:1.1rem; color: var(--muted); letter-spacing:0.01em;">On speaking clearly</h2>
+      <blockquote>
+        “Everything that can be said can be said clearly; and whereof one cannot speak, thereof one must be silent.”
+        <cite>— Ludwig Wittgenstein, Tractatus Logico-Philosophicus</cite>
+      </blockquote>
+      <p>This site aims to keep things concise and intelligible—nothing more than needed, nothing less.</p>
+    </section>
+
+    <footer>
+      Content © 2024 atiradonet. For permissions or inquiries, please reach out via GitHub.
+    </footer>
+  </main>
+</body>
+</html>

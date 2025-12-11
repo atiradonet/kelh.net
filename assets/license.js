@@ -1,4 +1,4 @@
-const LICENSE_URL = 'https://raw.githubusercontent.com/atiradonet/kelh.net/refs/heads/main/LICENSE';
+const LICENSE_URL = '/LICENSE';
 
 const target = document.getElementById('license-content');
 

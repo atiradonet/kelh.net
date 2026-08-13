@@ -3,4 +3,4 @@ Contact: mailto:rpt@kelh.net
 Policy: https://kelh.net/security
 Preferred-Languages: en
 Canonical: https://kelh.net/.well-known/security.txt
-Expires: 2026-06-30T23:59:00Z
+Expires: 2027-07-13T23:59:00Z

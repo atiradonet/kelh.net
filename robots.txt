@@ -1,3 +1,12 @@
+# kelh.net is deliberately not indexed. Every page also carries
+# <meta name="robots" content="noindex, nofollow, noai, noimageai">, and this
+# file is the coarse counterpart to that. No sitemap is published — advertising
+# URLs for indexing would contradict the policy below.
+#
+# The named groups are not redundant with the wildcard: a crawler obeys only the
+# most specific group matching its token, so a bot with its own section never
+# reads the "*" rules. Each one has to be listed to be covered.
+
 User-agent: *
 Disallow: /
 
@@ -18,5 +27,3 @@ Disallow: /
 
 User-agent: Amazonbot
 Disallow: /
-
-Sitemap: https://kelh.net/sitemap.xml

@@ -1,0 +1,21 @@
+# SHA-pinned actions are immutable, which is the point — but it also means they
+# never pick up upstream security fixes on their own. Dependabot closes that gap:
+# it understands hash-pinned actions and rewrites both the SHA and the trailing
+# version comment, so pinning costs nothing in maintenance.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      # One PR for the Pages toolchain rather than four; these actions are
+      # released together and are only meaningful as a set.
+      github-pages:
+        patterns:
+          - "actions/checkout"
+          - "actions/configure-pages"
+          - "actions/upload-pages-artifact"
+          - "actions/deploy-pages"
+    commit-message:
+      prefix: "chore(actions)"

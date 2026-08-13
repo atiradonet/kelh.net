@@ -1,0 +1,127 @@
+# Keep .well-known/security.txt from lapsing.
+#
+# RFC 9116 makes `Expires` mandatory and conforming tooling treats a lapsed file
+# as invalid rather than merely stale — so an expired security.txt advertises the
+# disclosure channel as unmonitored. This rolls the field forward automatically.
+#
+# Why this workflow deploys the site itself rather than letting static.yml do it:
+# a push made with GITHUB_TOKEN deliberately does NOT trigger further workflow
+# runs, so committing here would update the repository but never republish the
+# page. The deploy job below closes that gap.
+name: Renew security.txt
+
+on:
+  schedule:
+    # 04:17 UTC on the 1st of each month. Off-the-hour to avoid the scheduler's
+    # peak, when GitHub delays or drops cron runs.
+    - cron: "17 4 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "security-txt-renew"
+  cancel-in-progress: false
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.roll.outputs.changed }}
+      new: ${{ steps.roll.outputs.new }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Roll Expires forward when it nears lapsing
+        id: roll
+        run: |
+          set -euo pipefail
+          FILE=.well-known/security.txt
+          test -f "$FILE" || { echo "::error::$FILE is missing"; exit 1; }
+
+          current=$(grep -iE '^Expires:' "$FILE" | head -1 | cut -d: -f2- | tr -d ' \r')
+          if [ -z "$current" ]; then
+            echo "::error::no Expires field found; RFC 9116 requires one"
+            exit 1
+          fi
+          current_s=$(date -u -d "$current" +%s)
+          now_s=$(date -u +%s)
+          remaining=$(( (current_s - now_s) / 86400 ))
+          echo "Expires: $current  ($remaining days remaining)"
+
+          # Renew once inside 90 days. Checking monthly with an 11-month horizon
+          # means the file is rewritten roughly once a year, not every run.
+          if [ "$remaining" -gt 90 ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Outside the renewal window; nothing to do."
+            exit 0
+          fi
+
+          # 11 months, not 12: RFC 9116 says the value should be LESS THAN a year
+          # out, and exactly one year sits on the boundary.
+          new=$(date -u -d "+11 months" +%Y-%m-%dT23:59:00Z)
+          sed -i -E "s|^Expires:.*|Expires: $new|I" "$FILE"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "new=$new" >> "$GITHUB_OUTPUT"
+          echo "Rolled Expires forward to $new"
+
+      - name: Commit
+        if: steps.roll.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .well-known/security.txt
+          git commit -m "chore(security.txt): roll Expires to ${{ steps.roll.outputs.new }}"
+          git push
+
+      - name: Summary
+        run: |
+          {
+            if [ "${{ steps.roll.outputs.changed }}" = "true" ]; then
+              echo "### security.txt renewed"
+              echo ""
+              echo "New \`Expires\`: \`${{ steps.roll.outputs.new }}\`"
+            else
+              echo "### security.txt still current"
+              echo ""
+              echo "More than 90 days remain; no change made."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Republish, because the commit above cannot trigger static.yml on its own.
+  deploy:
+    needs: renew
+    if: needs.renew.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: '.'
+          # Without this the whole point of the workflow is lost: .well-known/
+          # would be excluded from the artifact.
+          include-hidden-files: true
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
